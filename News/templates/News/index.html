@@ -1,0 +1,83 @@
+<!---DOCTYPE html--->
+<html>
+
+<head>
+  <title>flyingNews</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <link rel='stylesheet' href='/static/css/base.css/'>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+</head>
+
+<body>
+
+  <div class='col-sm-14 col-sm-offset-3'>
+    <h1> Top News</h1>
+    <div class="row">
+      {%for foo in dico.items%}
+      <div class="col-sm-6 col-md-4">
+        <div class="thumbnail">
+          <img src={{foo.image}} alt={{foo.keyword}}>
+          <div class="caption">
+            <h3><a href="#">{{foo.title}}</a>
+        <small>{{foo.created}}</small></h3>
+            <p>{{foo.content|linebreaks|truncatechars:250}}</p>
+            <p>
+              <button role="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="{{foo.title}}" data-body="{{foo.content|linebreaks}}" data-wiki="{{foo.wiki}}" data-image="{{foo.image}}">Read More</button>
+          </div>
+        </div>
+      </div>
+      {%cycle "" "</div><div class='row'>"%}
+          {%endfor%}
+    </div>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h2 class="modal-title" id="myModalLabel"> </h2>
+        </div>
+        <div class="modal-body">
+              <img class="img-circle" src="" alt="flying kites">
+            <p></p>
+
+        </div>
+        <div class="modal-footer">
+            <h5><a href="#" target="_blank">Related wiki</a></h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+  $('#myModal').on('show.bs.modal', function (event) {
+         var button = $(event.relatedTarget) // Button that triggered the modal
+           var recipient = button.data('whatever') // Extract info from data-* attributes
+           // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+           // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+           var cont = button.data('body')
+           var wik = button.data('wiki')
+           var im = button.data('image')
+           var modal = $(this)
+           modal.find('.modal-title').html(recipient)
+           modal.find('.modal-body p').html(cont)
+           modal.find('.modal-body img').attr('src',im)
+           modal.find('.modal-footer h5 a').attr('href',wik)
+         })
+
+  </script>
+
+</body>
+
+</html>
