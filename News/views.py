@@ -19,5 +19,5 @@ def home(self):
 
 def data():
     json_ob = json.load(urllib2.urlopen(
-        'http://127.0.0.1:5000/scraping'))
+        'http://flyingkites.herokuapp.com/query/tech'))
     return json_ob
